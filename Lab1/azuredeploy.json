@@ -1,0 +1,65 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "storageAccountName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the Azure Storage Account"
+        }
+      },
+      "location": {
+        "type": "string",
+        "defaultValue": "West Europe",
+        "metadata": {
+          "description": "Location for the resources"
+        }
+      },
+      "resourceGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the Resource Group"
+        }
+      },
+      "webAppName": {
+        "type": "string",
+        "metadata": {
+          "description": "Name of the Azure Web App"
+        }
+      }
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Storage/storageAccounts",
+        "apiVersion": "2021-08-01",
+        "name": "[parameters('storageAccountName')]",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "Standard_LRS"
+        },
+        "kind": "StorageV2",
+        "properties": {}
+      },
+      {
+        "type": "Microsoft.Web/sites",
+        "apiVersion": "2021-03-01",
+        "name": "[parameters('webAppName')]",
+        "location": "[parameters('location')]",
+        "properties": {
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'FreeAppServicePlan')]"
+        }
+      },
+      {
+        "type": "Microsoft.Web/serverfarms",
+        "apiVersion": "2021-03-01",
+        "name": "FreeAppServicePlan",
+        "location": "[parameters('location')]",
+        "sku": {
+          "name": "F1",
+          "tier": "Free"
+        },
+        "properties": {}
+      }
+    ]
+  }
+  
