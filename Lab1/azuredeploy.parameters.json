@@ -3,16 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "storageAccountName": {
-        "value": "mystorageaccount123"
+        "value": "prix3"
       },
       "location": {
-        "value": "West Europe"
-      },
-      "resourceGroupName": {
-        "value": "myResourceGroup"
+        "value": "westeurope"
       },
       "webAppName": {
-        "value": "mywebapp123"
+        "value": "prix3webapp"
       }
     }
   }

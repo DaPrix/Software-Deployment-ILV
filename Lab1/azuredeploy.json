@@ -15,12 +15,7 @@
           "description": "Location for the resources"
         }
       },
-      "resourceGroupName": {
-        "type": "string",
-        "metadata": {
-          "description": "Name of the Resource Group"
-        }
-      },
+
       "webAppName": {
         "type": "string",
         "metadata": {
@@ -46,19 +41,24 @@
         "name": "[parameters('webAppName')]",
         "location": "[parameters('location')]",
         "properties": {
-          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', 'FreeAppServicePlan')]"
-        }
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', concat(parameters('webAppName'), 'farm'))]"
+        },
+        "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms/', concat(parameters('webAppName'), 'farm'))]"
+            ]
       },
       {
         "type": "Microsoft.Web/serverfarms",
         "apiVersion": "2021-03-01",
-        "name": "FreeAppServicePlan",
+        "name": "[concat(parameters('webAppName'), 'farm')]",
         "location": "[parameters('location')]",
         "sku": {
-          "name": "F1",
-          "tier": "Free"
-        },
-        "properties": {}
+                "name": "F1",
+                "tier": "Free"
+            },
+            "properties": {
+                "reserved": true
+            }
       }
     ]
   }
