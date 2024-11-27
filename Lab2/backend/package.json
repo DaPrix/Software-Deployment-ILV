@@ -4,12 +4,15 @@
   "description": "",
   "main": "./api/server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "node ./api/server/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@azure/functions": "^4.6.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
