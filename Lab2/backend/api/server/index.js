@@ -5,7 +5,7 @@ const { app } = require('@azure/functions');
   };
   module.exports = testHandler;
 
-app.http('hello', {
+app.http('test', {
     methods: ['POST', 'GET'],
     handler: testHandler
 });
