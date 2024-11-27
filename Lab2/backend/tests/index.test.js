@@ -11,6 +11,6 @@ describe('testHandler', () => {
 
     // Assertions
     expect(response).toBeDefined();
-    expect(response.body).toBe('Backend works just fine!');
+    expect(response.body).toBe('Backend works just fine!!');
   });
 });
