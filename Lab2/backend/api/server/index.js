@@ -1,7 +1,7 @@
 const { app } = require('@azure/functions');
 
   const testHandler = async (request, context) => {
-    return { body: 'Backend works just fine!' };
+    return { body: 'Backend works just fine!!' };
   };
 
   module.exports = testHandler;
