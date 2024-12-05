@@ -1,10 +1,11 @@
 version: '3.8'
 
 services:
-  mariadb:
+  db:
     build:
       context: ./mysql
     container_name: mariadb_cont
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root 
       MYSQL_NAME: wordpress_db
@@ -12,10 +13,12 @@ services:
       MYSQL_PASSWORD: passworddb
     volumes:
       - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
 
   wordpress:
     depends_on:
-      - mariadb
+      - db
     build:
       context: ./wordpress
     container_name: wordpress_cont

@@ -1,9 +1,4 @@
-FROM debian:bullseye
-
-ENV WP_DB_NAME 'wordpress_db' \
-    WP_DB_USER 'userdb' \
-    WP_DB_PASSWORD 'passworddb' \
-    WP_DB_HOST 'localhost:3306'
+FROM debian:buster
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y \
@@ -17,7 +12,10 @@ RUN apt-get update && apt-get upgrade -y && \
         unzip && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN rm /var/www/html/index.html
+
 WORKDIR /var/www/html
+
 RUN wget -q https://wordpress.org/latest.zip && \
     unzip -q latest.zip && \
     mv wordpress/* . && \
@@ -27,8 +25,11 @@ RUN wget -q https://wordpress.org/latest.zip && \
     chown -R www-data:www-data wp-content/uploads && \
     rm -rf wordpress latest.zip
 
-RUN echo "ServerName 127.0.0.1" > /etc/apache2/conf-available/servername.conf && \
-    a2enconf servername
+RUN mkdir -p wp-content/uploads && \
+    chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
+
+RUN echo "ServerName 127.0.0.1" >> /etc/apache2/apache2.conf
 
 EXPOSE 80/tcp
 
