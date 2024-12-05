@@ -1,0 +1,30 @@
+FROM debian:buster
+
+ENV MYSQL_ROOT_PASSWORD='root' \
+    MYSQL_NAME='wordpress_db' \
+    MYSQL_USER='userdb' \
+    MYSQL_PASSWORD='passworddb' \
+    DEBIAN_FRONTEND=noninteractive \
+    container=docker
+
+RUN apt-get update && \
+    apt-get install -y mariadb-server && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /run/mysqld /data/mysql && \
+    chown -R mysql:mysql /run/mysqld /data/mysql && \
+    chmod 1777 /run/mysqld /data/mysql && \
+    sed -i 's/^bind-address.*/bind-address = 0.0.0.0/' /etc/mysql/mariadb.conf.d/50-server.cnf
+
+EXPOSE 3306/tcp
+
+RUN service mysql start \
+    && mysqladmin -u root password $MYSQL_ROOT_PASSWORD \
+    && mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_NAME};" \
+    && mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON ${MYSQL_NAME}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';" \
+    && mysql --user=root --password=$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+
+VOLUME ["/data/mysql"]
+
+CMD ["mysqld", "--datadir=/data/mysql"]

@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  mariadb:
+    build:
+      context: ./mysql
+    container_name: mariadb_cont
+    environment:
+      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_NAME: wordpress_db
+      MYSQL_USER: userdb
+      MYSQL_PASSWORD: passworddb
+    volumes:
+      - db_data:/var/lib/mysql
+
+  wordpress:
+    depends_on:
+      - mariadb
+    build:
+      context: ./wordpress
+    container_name: wordpress_cont
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: localhost:3306
+      WORDPRESS_DB_USER: userdb
+      WORDPRESS_DB_PASSWORD: passworddb
+      WORDPRESS_DB_NAME: wordpress_db
+    volumes:
+      - wordpress_data:/var/www/html
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
+  wordpress_data:
