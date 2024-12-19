@@ -61,3 +61,22 @@ Access WordPress at:
 ```
 http://localhost:8080
 ```
+
+#### Option 3: Let the computer do the magic
+Simply type in:
+```bash
+minikube service wordpress
+```
+After inputting this command, the computer will automatically open the site.
+
+### How to access the dashboard
+In order to access the dashboard, simply type in
+```bash
+minikube dashboard
+```
+
+### Screenshots
+
+![Dashboard](./Showcase/dashboard.png)
+
+![Wordpress](./Showcase/wordpress.png)
